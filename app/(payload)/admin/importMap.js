@@ -1,21 +1,5 @@
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from "@payloadcms/next/rsc";
 import {
-  CollectionField as CollectionField_cdf7e044479f899a31f804427d568b36,
-  ExportListMenuItem as ExportListMenuItem_cdf7e044479f899a31f804427d568b36,
-  ExportPreview as ExportPreview_cdf7e044479f899a31f804427d568b36,
-  ExportSaveButton as ExportSaveButton_cdf7e044479f899a31f804427d568b36,
-  FieldsToExport as FieldsToExport_cdf7e044479f899a31f804427d568b36,
-  ImportCollectionField as ImportCollectionField_cdf7e044479f899a31f804427d568b36,
-  ImportExportProvider as ImportExportProvider_cdf7e044479f899a31f804427d568b36,
-  ImportListMenuItem as ImportListMenuItem_cdf7e044479f899a31f804427d568b36,
-  ImportPreview as ImportPreview_cdf7e044479f899a31f804427d568b36,
-  ImportSaveButton as ImportSaveButton_cdf7e044479f899a31f804427d568b36,
-  Page as Page_cdf7e044479f899a31f804427d568b36,
-  SelectionToUseField as SelectionToUseField_cdf7e044479f899a31f804427d568b36,
-  SortBy as SortBy_cdf7e044479f899a31f804427d568b36,
-  SortOrder as SortOrder_cdf7e044479f899a31f804427d568b36,
-} from "@payloadcms/plugin-import-export/rsc";
-import {
   LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
   ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
 } from "@payloadcms/plugin-search/client";
@@ -49,10 +33,6 @@ import {
 import { HomeNavLink as HomeNavLink_f04b3d5d52b82f2c98c152d722a60f81 } from "@/components/home-nav-link";
 
 export const importMap = {
-  "@payloadcms/plugin-import-export/rsc#ExportListMenuItem":
-    ExportListMenuItem_cdf7e044479f899a31f804427d568b36,
-  "@payloadcms/plugin-import-export/rsc#ImportListMenuItem":
-    ImportListMenuItem_cdf7e044479f899a31f804427d568b36,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell":
     RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalField":
@@ -99,29 +79,8 @@ export const importMap = {
     BoldFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#ItalicFeatureClient":
     ItalicFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
-  "@payloadcms/plugin-import-export/rsc#Page": Page_cdf7e044479f899a31f804427d568b36,
-  "@payloadcms/plugin-import-export/rsc#SortBy": SortBy_cdf7e044479f899a31f804427d568b36,
-  "@payloadcms/plugin-import-export/rsc#SortOrder": SortOrder_cdf7e044479f899a31f804427d568b36,
-  "@payloadcms/plugin-import-export/rsc#SelectionToUseField":
-    SelectionToUseField_cdf7e044479f899a31f804427d568b36,
-  "@payloadcms/plugin-import-export/rsc#FieldsToExport":
-    FieldsToExport_cdf7e044479f899a31f804427d568b36,
-  "@payloadcms/plugin-import-export/rsc#CollectionField":
-    CollectionField_cdf7e044479f899a31f804427d568b36,
-  "@payloadcms/plugin-import-export/rsc#ExportPreview":
-    ExportPreview_cdf7e044479f899a31f804427d568b36,
-  "@payloadcms/plugin-import-export/rsc#ExportSaveButton":
-    ExportSaveButton_cdf7e044479f899a31f804427d568b36,
-  "@payloadcms/plugin-import-export/rsc#ImportCollectionField":
-    ImportCollectionField_cdf7e044479f899a31f804427d568b36,
-  "@payloadcms/plugin-import-export/rsc#ImportPreview":
-    ImportPreview_cdf7e044479f899a31f804427d568b36,
-  "@payloadcms/plugin-import-export/rsc#ImportSaveButton":
-    ImportSaveButton_cdf7e044479f899a31f804427d568b36,
   "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
   "@/components/home-nav-link#HomeNavLink": HomeNavLink_f04b3d5d52b82f2c98c152d722a60f81,
-  "@payloadcms/plugin-import-export/rsc#ImportExportProvider":
-    ImportExportProvider_cdf7e044479f899a31f804427d568b36,
   "@payloadcms/next/rsc#CollectionCards": CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1,
 };

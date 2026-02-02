@@ -1,9 +1,6 @@
-import config from "@payload-config";
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
 import { notFound } from "next/navigation";
-import { getPayload } from "payload";
-import VideoJSPlayer from "@/components/videojs-player";
-import { extractTableOfContents, serializeLexical } from "@/lib/lexical-serializer";
+import { extractTableOfContents } from "@/lib/lexical-serializer";
 import { source } from "@/lib/source";
 import { EditButton, LLMCopyButton } from "./page.client";
 
@@ -15,11 +12,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
     notFound();
   }
 
-  // Get payload instance for content serialization
-  const payload = await getPayload({ config });
-
   // Serialize Lexical content to HTML
-  const contentHtml = await serializeLexical(page.data.content, payload);
   const toc = extractTableOfContents(page.data.content);
 
   return (
@@ -34,9 +27,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
         <LLMCopyButton slug={params.slug ?? []} />
         <EditButton payloadUrl={`/admin/collections/docs/${String(page.data.id)}`} />
       </div>
-      <DocsBody>
-        <VideoJSPlayer html={contentHtml} />
-      </DocsBody>
+      <DocsBody></DocsBody>
     </DocsPage>
   );
 }

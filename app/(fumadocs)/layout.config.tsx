@@ -1,5 +1,5 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
-import { Book, Home, Settings } from "lucide-react";
+import { Home, Settings } from "lucide-react";
 
 /**
  * Shared layout configurations
@@ -38,11 +38,5 @@ export const baseOptions: BaseLayoutProps = {
 
 export const homeOptions: BaseLayoutProps = {
   ...baseOptions,
-  links: [
-    {
-      text: "Admin",
-      url: "/admin",
-      active: "url",
-    },
-  ],
+  links: [],
 };

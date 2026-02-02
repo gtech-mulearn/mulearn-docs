@@ -64,23 +64,7 @@ export default async function HomePage() {
         <p className="mb-8 text-fd-muted-foreground text-md">
           Browse documentation categories below.
         </p>
-        {categories.length === 0 ? (
-          <div className="flex flex-col items-center justify-center gap-6">
-            <div className="flex w-full flex-col justify-center gap-4 md:flex-row md:flex-wrap md:gap-6">
-              <Link href="/admin" className="block w-full md:w-80">
-                <Card className="transition-all hover:border-primary/50 hover:shadow-lg">
-                  <CardHeader>
-                    <CardTitle>Get Started</CardTitle>
-                    <CardDescription>
-                      Begin by creating your first admin user. Delete this card after you're done in
-                      /app/(fumadocs)/(home)/page.tsx
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-              </Link>
-            </div>
-          </div>
-        ) : (
+        {categories.length === 0 && (
           <div className="flex flex-col justify-center gap-4 md:flex-row md:flex-wrap md:gap-6">
             {categoriesWithFirstDoc.map((category) => {
               // Build the URL from category slug and first doc slug

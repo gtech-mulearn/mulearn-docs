@@ -158,20 +158,6 @@ Each category becomes an isolated sidebar tab:
 
 When viewing a doc, only that category's docs appear in the sidebar.
 
-### Content Flow
-
-```
-Payload CMS (Lexical)
-       ↓
-Source Adapter (Transform)
-       ↓
-VirtualFiles (Fumadocs format)
-       ↓
-Lexical Serializer (HTML)
-       ↓
-Rendered Page
-```
-
 ## Usage Guide
 
 ### Creating Content
