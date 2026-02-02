@@ -10,13 +10,13 @@ import { Home, Settings } from "lucide-react";
  */
 export const baseOptions: BaseLayoutProps = {
   themeSwitch: {
-    enabled: true,
-    mode: "light-dark-system",
+    enabled: false,
+    mode: "light-dark",
   },
   nav: {
     title: (
       <div className="flex items-center gap-2">
-        <span className="font-bold font-serif tracking-wide">FumaPayload</span>
+        <span className="font-bold tracking-wide">Mulearn</span>
       </div>
     ),
   },

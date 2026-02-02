@@ -12,7 +12,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
       tree={tree}
       {...baseOptions}
       sidebar={{
-        prefetch: false,
+        prefetch: true,
       }}
     >
       {children}

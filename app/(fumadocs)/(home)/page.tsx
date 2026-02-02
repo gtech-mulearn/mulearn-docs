@@ -61,9 +61,6 @@ export default async function HomePage() {
         <div className="mb-4 flex items-center justify-center gap-2 md:gap-4">
           <h1 className="font-serif text-4xl md:text-5xl font-bold tracking-wide">Documentation</h1>
         </div>
-        <p className="mb-8 text-fd-muted-foreground text-md">
-          Browse documentation categories below.
-        </p>
         {categories.length === 0 && (
           <div className="flex flex-col justify-center gap-4 md:flex-row md:flex-wrap md:gap-6">
             {categoriesWithFirstDoc.map((category) => {
