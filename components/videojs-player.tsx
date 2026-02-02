@@ -24,9 +24,7 @@ export default function VideoJSPlayer({ html }: VideoJSPlayerProps) {
     const rafId = requestAnimationFrame(() => {
       // Initialize Video.js players
       const videoNodes = Array.from(
-        container.querySelectorAll<HTMLVideoElement>(
-          "[data-videojs-player='true']"
-        )
+        container.querySelectorAll<HTMLVideoElement>("[data-videojs-player='true']"),
       );
 
       videoNodes.forEach((node, index) => {
@@ -36,9 +34,7 @@ export default function VideoJSPlayer({ html }: VideoJSPlayerProps) {
 
         const src = node.dataset.videoSrc;
         if (!src) {
-          console.warn(
-            `[VideoJS] Video element ${index} missing data-video-src attribute`
-          );
+          console.warn(`[VideoJS] Video element ${index} missing data-video-src attribute`);
           return;
         }
 
@@ -75,9 +71,7 @@ export default function VideoJSPlayer({ html }: VideoJSPlayerProps) {
             }
 
             // Force center the big play button
-            const bigPlayButton = playerEl.querySelector<HTMLElement>(
-              ".vjs-big-play-button"
-            );
+            const bigPlayButton = playerEl.querySelector<HTMLElement>(".vjs-big-play-button");
             if (bigPlayButton) {
               bigPlayButton.style.position = "absolute";
               bigPlayButton.style.top = "50%";
@@ -105,7 +99,7 @@ export default function VideoJSPlayer({ html }: VideoJSPlayerProps) {
 
       // Initialize Vimeo embeds
       const vimeoContainers = Array.from(
-        container.querySelectorAll<HTMLDivElement>(".vimeo-embed-container")
+        container.querySelectorAll<HTMLDivElement>(".vimeo-embed-container"),
       );
 
       vimeoContainers.forEach((vimeoContainer, index) => {
@@ -118,9 +112,7 @@ export default function VideoJSPlayer({ html }: VideoJSPlayerProps) {
         const embedUrl = vimeoContainer.dataset.vimeoEmbedUrl;
 
         if (!(vimeoId && embedUrl)) {
-          console.warn(
-            `[Vimeo] Embed ${index} missing required data attributes`
-          );
+          console.warn(`[Vimeo] Embed ${index} missing required data attributes`);
           return;
         }
 
@@ -131,8 +123,7 @@ export default function VideoJSPlayer({ html }: VideoJSPlayerProps) {
 
           // Create mount point for the embed
           const mountPoint = document.createElement("div");
-          mountPoint.className =
-            "aspect-video w-full overflow-hidden rounded-lg";
+          mountPoint.className = "aspect-video w-full overflow-hidden rounded-lg";
           wrapper.appendChild(mountPoint);
 
           // Replace the container with the wrapper
@@ -145,10 +136,7 @@ export default function VideoJSPlayer({ html }: VideoJSPlayerProps) {
             iframe.src = embedUrl;
             iframe.className = "h-full w-full";
             iframe.setAttribute("frameborder", "0");
-            iframe.setAttribute(
-              "allow",
-              "autoplay; fullscreen; picture-in-picture"
-            );
+            iframe.setAttribute("allow", "autoplay; fullscreen; picture-in-picture");
             iframe.setAttribute("allowfullscreen", "");
             mountPoint.appendChild(iframe);
           } else {
@@ -156,15 +144,10 @@ export default function VideoJSPlayer({ html }: VideoJSPlayerProps) {
             import("@u-wave/react-vimeo")
               .then(({ default: Vimeo }) => {
                 const root = createRoot(mountPoint);
-                root.render(
-                  <Vimeo className="h-full w-full" responsive video={vimeoId} />
-                );
+                root.render(<Vimeo className="h-full w-full" responsive video={vimeoId} />);
               })
               .catch((err) => {
-                console.error(
-                  "[Vimeo] Failed to load react-vimeo library for embed:",
-                  err
-                );
+                console.error("[Vimeo] Failed to load react-vimeo library for embed:", err);
               });
           }
 

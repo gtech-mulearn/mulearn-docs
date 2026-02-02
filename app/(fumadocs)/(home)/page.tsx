@@ -1,14 +1,9 @@
-import { getPayload } from "payload";
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import Link from "next/link";
 import Image from "next/image";
-import type { Media } from "@/payload-types";
+import Link from "next/link";
+import { getPayload } from "payload";
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import config from "@/payload.config";
+import type { Media } from "@/payload-types";
 
 export default async function HomePage() {
   const payloadConfig = await config;
@@ -57,16 +52,14 @@ export default async function HomePage() {
         ...category,
         firstDoc: categoryDocs[0],
       };
-    })
+    }),
   );
 
   return (
     <main className="flex flex-1 flex-col px-4 py-4 md:px-8 md:py-16">
       <div className="mx-auto flex max-w-6xl flex-1 flex-col justify-center gap-4 text-center">
         <div className="mb-4 flex items-center justify-center gap-2 md:gap-4">
-          <h1 className="font-serif text-4xl md:text-5xl font-bold tracking-wide">
-            Documentation
-          </h1>
+          <h1 className="font-serif text-4xl md:text-5xl font-bold tracking-wide">Documentation</h1>
         </div>
         <p className="mb-8 text-fd-muted-foreground text-md">
           Browse documentation categories below.
@@ -79,8 +72,8 @@ export default async function HomePage() {
                   <CardHeader>
                     <CardTitle>Get Started</CardTitle>
                     <CardDescription>
-                      Begin by creating your first admin user. Delete this card
-                      after you're done in /app/(fumadocs)/(home)/page.tsx
+                      Begin by creating your first admin user. Delete this card after you're done in
+                      /app/(fumadocs)/(home)/page.tsx
                     </CardDescription>
                   </CardHeader>
                 </Card>
@@ -104,11 +97,7 @@ export default async function HomePage() {
                   : null;
 
               return (
-                <Link
-                  key={category.id}
-                  href={href}
-                  className="block w-full md:w-80"
-                >
+                <Link key={category.id} href={href} className="block w-full md:w-80">
                   <Card className="transition-all hover:border-primary/50 hover:shadow-lg">
                     <CardHeader>
                       {iconUrl ? (
@@ -123,9 +112,7 @@ export default async function HomePage() {
                         </div>
                       ) : null}
                       <CardTitle>{category.title}</CardTitle>
-                      <CardDescription>
-                        {category.description || ""}
-                      </CardDescription>
+                      <CardDescription>{category.description || ""}</CardDescription>
                     </CardHeader>
                   </Card>
                 </Link>

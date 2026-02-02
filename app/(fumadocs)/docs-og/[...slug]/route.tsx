@@ -4,10 +4,7 @@ import { source } from "@/lib/source";
 
 export const runtime = "nodejs";
 
-export async function GET(
-  req: Request,
-  { params }: { params: Promise<{ slug: string[] }> },
-) {
+export async function GET(req: Request, { params }: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await params;
   // Remove "image.png" from the end
   const pathParts = slug.slice(0, -1);

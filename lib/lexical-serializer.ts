@@ -1,8 +1,8 @@
 import type {
   DefaultNodeTypes,
+  SerializedLinkNode,
   SerializedRelationshipNode,
   SerializedUploadNode,
-  SerializedLinkNode,
 } from "@payloadcms/richtext-lexical";
 import { getPayloadPopulateFn } from "@payloadcms/richtext-lexical";
 import {
@@ -144,7 +144,7 @@ function extractTextFromNode(node: any): string {
  */
 export async function serializeLexical(
   content: SerializedEditorState | null | undefined,
-  payload: Payload
+  payload: Payload,
 ): Promise<string> {
   if (!content?.root?.children) {
     return "";
@@ -163,9 +163,7 @@ export async function serializeLexical(
   return html ?? "";
 }
 
-function createConverterOverrides(
-  payload: Payload
-): HTMLConvertersFunctionAsync<DefaultNodeTypes> {
+function createConverterOverrides(payload: Payload): HTMLConvertersFunctionAsync<DefaultNodeTypes> {
   const headingSlugCounts = new Map<string, number>();
   const docCache = new Map<string, Doc>();
   const categoryCache = new Map<string, Category>();
@@ -214,11 +212,7 @@ function createConverterOverrides(
               id: node.value,
             });
       const media = doc as Media | undefined;
-      if (
-        media &&
-        typeof media === "object" &&
-        media.mimeType?.startsWith("video")
-      ) {
+      if (media && typeof media === "object" && media.mimeType?.startsWith("video")) {
         const titleValue =
           typeof media.alt === "string" && media.alt
             ? media.alt
@@ -231,9 +225,7 @@ function createConverterOverrides(
         }
 
         const typeValue =
-          typeof media.mimeType === "string" && media.mimeType
-            ? media.mimeType
-            : "video/mp4";
+          typeof media.mimeType === "string" && media.mimeType ? media.mimeType : "video/mp4";
         const posterValue =
           typeof media.thumbnailURL === "string" && media.thumbnailURL
             ? media.thumbnailURL
@@ -301,8 +293,7 @@ function createConverterOverrides(
     },
     link: async (args) => {
       const { node } = args;
-      const url =
-        typeof node.fields?.url === "string" ? node.fields.url : "";
+      const url = typeof node.fields?.url === "string" ? node.fields.url : "";
 
       // Check if the URL is a Vimeo link
       const vimeoId = extractVimeoId(url);
@@ -373,10 +364,7 @@ async function resolveRelationshipDoc({
   })) as Doc;
 
   docCache.set(docId, fetched);
-  if (
-    typeof fetched.category === "string" &&
-    !categoryCache.has(fetched.category)
-  ) {
+  if (typeof fetched.category === "string" && !categoryCache.has(fetched.category)) {
     const category = (await payload.findByID({
       collection: "categories",
       depth: 0,
@@ -494,17 +482,11 @@ async function resolveCategorySlug({
 }
 
 function isDoc(value: unknown): value is Doc {
-  return Boolean(
-    value &&
-      typeof value === "object" &&
-      "id" in (value as Record<string, unknown>)
-  );
+  return Boolean(value && typeof value === "object" && "id" in (value as Record<string, unknown>));
 }
 
 function isCategory(value: unknown): value is Category {
   return Boolean(
-    value &&
-      typeof value === "object" &&
-      "slug" in (value as Record<string, unknown>)
+    value && typeof value === "object" && "slug" in (value as Record<string, unknown>),
   );
 }

@@ -15,8 +15,7 @@ export function slugify(input: string): string {
     .replace(/^-|-$|\/-/g, (value) => (value === "/-" ? "/" : ""));
 }
 
-export const slugPattern =
-  /^[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)*$/;
+export const slugPattern = /^[a-z0-9]+(?:-[a-z0-9]+)*(?:\/[a-z0-9]+(?:-[a-z0-9]+)*)*$/;
 
 export function validateSlug(value: unknown): true | string {
   if (typeof value !== "string" || value.trim().length === 0) {
@@ -35,8 +34,7 @@ type DocNode = {
   parent?: unknown;
 };
 
-const isDocNode = (value: unknown): value is DocNode =>
-  value !== null && typeof value === "object";
+const isDocNode = (value: unknown): value is DocNode => value !== null && typeof value === "object";
 
 export function buildDocPath(doc: DocNode, byId: Map<string, unknown>): string {
   const segments: string[] = [];

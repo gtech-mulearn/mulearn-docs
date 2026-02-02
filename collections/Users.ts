@@ -77,11 +77,7 @@ export const Users: CollectionConfig = {
 
           // If an admin is trying to create a user, prevent them from creating admins or owners
           const currentUser = args.req.user;
-          if (
-            currentUser?.role === "admin" &&
-            data?.role &&
-            data.role !== "user"
-          ) {
+          if (currentUser?.role === "admin" && data?.role && data.role !== "user") {
             throw new Error("Admins can only create users with 'user' role");
           }
         }
@@ -260,8 +256,7 @@ export const Users: CollectionConfig = {
               data: {
                 title: "Understanding Roles",
                 slug: "understanding-roles",
-                description:
-                  "Learn about the different user roles and their permissions",
+                description: "Learn about the different user roles and their permissions",
                 category: category.id,
                 order: 2,
                 content: {
@@ -740,8 +735,7 @@ export const Users: CollectionConfig = {
               data: {
                 title: "Using the Editor",
                 slug: "using-the-editor",
-                description:
-                  "Learn how to use the Lexical rich text editor for creating content",
+                description: "Learn how to use the Lexical rich text editor for creating content",
                 category: category.id,
                 order: 4,
                 content: {
@@ -980,9 +974,7 @@ export const Users: CollectionConfig = {
               },
             });
 
-            console.log(
-              "✅ Getting Started category and documentation created successfully!"
-            );
+            console.log("✅ Getting Started category and documentation created successfully!");
           }
         }
       },

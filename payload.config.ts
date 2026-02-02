@@ -3,8 +3,7 @@ import { fileURLToPath } from "node:url";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { searchPlugin } from "@payloadcms/plugin-search";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
-import { buildConfig } from "payload";
-import { databaseKVAdapter } from "payload";
+import { buildConfig, databaseKVAdapter } from "payload";
 import sharp from "sharp";
 import { Categories } from "./collections/Categories";
 import { Docs } from "./collections/Docs";
@@ -23,8 +22,7 @@ export default buildConfig({
     },
     meta: {
       titleSuffix: "µLearn Docs | CMS Admin",
-      description:
-        "Admin panel for documentation - Manage your documentation and content.",
+      description: "Admin panel for documentation - Manage your documentation and content.",
       defaultOGImageType: "dynamic",
       icons: [
         {
