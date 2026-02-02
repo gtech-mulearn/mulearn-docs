@@ -13,7 +13,8 @@
     "typecheck": "tsc --noEmit",
     "validate": "bun run typecheck && bun run lint",
     "format": "biome format app collections components lib --write",
-    "payload": "cross-env PAYLOAD_CONFIG_PATH=payload.config.ts payload"
+    "payload": "cross-env PAYLOAD_CONFIG_PATH=payload.config.ts payload",
+    "prepare": "husky"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "^3.74.0",
@@ -52,6 +53,7 @@
     "@types/node": "25.0.8",
     "@types/react": "~19.2.8",
     "@types/react-dom": "~19.2.3",
+    "husky": "^9.1.7",
     "lint-staged": "^16.2.7",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18",
