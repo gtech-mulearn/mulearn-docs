@@ -50,18 +50,6 @@ export const Categories: CollectionConfig = {
       },
     },
     {
-      name: "icon",
-      type: "upload",
-      relationTo: "media" as any,
-      admin: {
-        description: "Icon image for the category",
-        position: "sidebar",
-      },
-      filterOptions: {
-        mimeType: { contains: "image" },
-      },
-    },
-    {
       name: "order",
       type: "number",
       required: true,

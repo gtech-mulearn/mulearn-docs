@@ -1,9 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { getPayload } from "payload";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import config from "@/payload.config";
-import type { Media } from "@/payload-types";
 
 export default async function HomePage() {
   const payloadConfig = await config;
@@ -69,29 +67,10 @@ export default async function HomePage() {
                 ? `/docs/${category.slug}/${category.firstDoc.slug}`
                 : `/docs/${category.slug}`;
 
-              // Get icon URL from media relationship
-              const iconUrl =
-                typeof category.icon === "object" &&
-                category.icon !== null &&
-                "url" in category.icon
-                  ? (category.icon as Media).url
-                  : null;
-
               return (
                 <Link key={category.id} href={href} className="block w-full md:w-80">
                   <Card className="transition-all hover:border-primary/50 hover:shadow-lg">
                     <CardHeader>
-                      {iconUrl ? (
-                        <div className="mb-2">
-                          <Image
-                            alt={category.title}
-                            className="object-contain"
-                            height={32}
-                            src={iconUrl}
-                            width={32}
-                          />
-                        </div>
-                      ) : null}
                       <CardTitle>{category.title}</CardTitle>
                       <CardDescription>{category.description || ""}</CardDescription>
                     </CardHeader>

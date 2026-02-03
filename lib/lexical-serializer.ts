@@ -11,7 +11,7 @@ import {
 } from "@payloadcms/richtext-lexical/html-async";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
 import type { Payload } from "payload";
-import type { Category, Doc, Media } from "@/payload-types";
+import type { Category, Doc } from "@/payload-types";
 
 export interface TableOfContentsItem {
   title: string;
@@ -28,31 +28,6 @@ function escapeHtml(value: string): string {
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
-}
-
-/**
- * Extract Vimeo video identifier from URL
- * Supports formats:
- * - https://vimeo.com/1116751860 -> "1116751860"
- * - https://vimeo.com/1116751860/27f4807174 -> "1116751860/27f4807174"
- * - https://player.vimeo.com/video/1116751860 -> "1116751860"
- * Returns the ID with privacy hash if present (required for private/unlisted videos)
- */
-function extractVimeoId(url: string): string | null {
-  try {
-    const urlObj = new URL(url);
-
-    // Check if it's a Vimeo domain
-    if (!urlObj.hostname.includes("vimeo.com")) {
-      return null;
-    }
-
-    // Match patterns like /1116751860 or /video/1116751860 or /1116751860/hash
-    const match = urlObj.pathname.match(/\/(?:video\/)?(\d+(?:\/[\w-]+)?)/);
-    return match?.[1] ?? null;
-  } catch {
-    return null;
-  }
 }
 
 /**
@@ -202,67 +177,6 @@ function createConverterOverrides(payload: Payload): HTMLConvertersFunctionAsync
       const className = headingClasses[node.tag] ?? "";
       return `<${node.tag}${providedStyleTag} id="${slug}" class="${className}">${children.join("")}</${node.tag}>`;
     },
-    upload: async (args) => {
-      const node = args.node as SerializedUploadNode;
-      const doc =
-        typeof node.value === "object"
-          ? node.value
-          : await args.populate?.({
-              collectionSlug: node.relationTo,
-              id: node.value,
-            });
-      const media = doc as Media | undefined;
-      if (media && typeof media === "object" && media.mimeType?.startsWith("video")) {
-        const titleValue =
-          typeof media.alt === "string" && media.alt
-            ? media.alt
-            : typeof media.filename === "string"
-              ? media.filename
-              : "";
-        const urlValue = typeof media.url === "string" ? media.url : "";
-        if (!urlValue) {
-          return "";
-        }
-
-        const typeValue =
-          typeof media.mimeType === "string" && media.mimeType ? media.mimeType : "video/mp4";
-        const posterValue =
-          typeof media.thumbnailURL === "string" && media.thumbnailURL
-            ? media.thumbnailURL
-            : undefined;
-
-        const attributes: string[] = [
-          'class="video-js lexical-player vjs-default-skin w-full rounded-lg"',
-          "controls",
-          "playsinline",
-          'preload="auto"',
-          `data-videojs-player="true"`,
-          `data-video-src="${escapeHtml(urlValue)}"`,
-          `data-video-type="${escapeHtml(typeValue)}"`,
-        ];
-
-        if (titleValue) {
-          const escapedTitle = escapeHtml(titleValue);
-          attributes.push(`data-video-title="${escapedTitle}"`);
-          attributes.push(`aria-label="${escapedTitle}"`);
-        }
-
-        if (posterValue) {
-          const escapedPoster = escapeHtml(posterValue);
-          attributes.push(`data-video-poster="${escapedPoster}"`);
-          attributes.push(`poster="${escapedPoster}"`);
-        }
-
-        return `<video ${attributes.join(" ")}>
-  <source src="${escapeHtml(urlValue)}" type="${escapeHtml(typeValue)}" />
-</video>`;
-      }
-      const uploadConverter = defaultConverters.upload;
-      if (typeof uploadConverter === "function") {
-        return uploadConverter(args);
-      }
-      return uploadConverter ?? "";
-    },
     relationship: async (args) => {
       const node = args.node as SerializedRelationshipNode;
       const relatedDoc = await resolveRelationshipDoc({
@@ -290,30 +204,6 @@ function createConverterOverrides(payload: Payload): HTMLConvertersFunctionAsync
       return href
         ? `<a href="${href}" class="block no-underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">${body}</a>`
         : body;
-    },
-    link: async (args) => {
-      const { node } = args;
-      const url = typeof node.fields?.url === "string" ? node.fields.url : "";
-
-      // Check if the URL is a Vimeo link
-      const vimeoId = extractVimeoId(url);
-      if (vimeoId) {
-        // Parse video ID and hash (if present)
-        const [videoId, hash] = vimeoId.split("/");
-        const embedUrl = hash
-          ? `https://player.vimeo.com/video/${videoId}?h=${hash}`
-          : `https://player.vimeo.com/video/${videoId}`;
-
-        // Create a special marker for Vimeo embeds
-        return `<div class="vimeo-embed-container" data-vimeo-id="${escapeHtml(videoId)}" data-vimeo-hash="${hash ? escapeHtml(hash) : ""}" data-vimeo-embed-url="${escapeHtml(embedUrl)}"></div>`;
-      }
-
-      // Default link rendering
-      const linkConverter = defaultConverters.link;
-      if (typeof linkConverter === "function") {
-        return await linkConverter(args);
-      }
-      return linkConverter ?? "";
     },
   });
 }

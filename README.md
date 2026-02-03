@@ -29,7 +29,6 @@ payload-cms/
 ├── collections/
 │   ├── Categories.ts         # Doc categories
 │   ├── Docs.ts              # Documentation pages
-│   └── Media.ts             # File uploads
 ├── components/
 │   └── ui/                  # UI components
 ├── lib/
@@ -103,14 +102,6 @@ Documentation pages:
 - `parent`: Optional parent doc (for nesting)
 - `order`: Sort order within category (ascending)
 - `_status`: Draft or Published\
-
-### Media
-
-File uploads:
-
-- `alt`: Alt text for images
-- Stored in S3 or local filesystem
-- Automatic optimization
 
 ## How It Works
 
@@ -286,20 +277,6 @@ const { docs } = await payload.find({
 
 This ensures relationships are populated, not just IDs.
 
-### Revalidation
-
-The example uses Next.js revalidation:
-
-```typescript
-export const revalidate = 30; // Revalidate every 30 seconds
-```
-
-Adjust based on your needs:
-
-- `revalidate: 0` - No cache (always fresh)
-- `revalidate: 3600` - Cache for 1 hour
-- `revalidate: false` - Cache indefinitely
-
 ## Customization
 
 ### Adding Fields to Docs
@@ -374,14 +351,6 @@ bun run build        # Production build
 bun run start        # Start production server
 bun run payload      # Payload CLI commands
 ```
-
-## Learn More
-
-- [Fumadocs Documentation](https://fumadocs.vercel.app)
-- [Payload CMS Documentation](https://payloadcms.com/docs)
-- [Source API Reference](https://fumadocs.vercel.app/docs/headless/source-api)
-- [Lexical Editor](https://lexical.dev)
-- [Payload Database KV Adapter](https://payloadcms.com/docs/configuration/database-adapters#database-kv-adapter)
 
 ## License
 

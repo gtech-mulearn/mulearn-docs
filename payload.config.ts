@@ -7,7 +7,6 @@ import { buildConfig, databaseKVAdapter } from "payload";
 import sharp from "sharp";
 import { Categories } from "./collections/Categories";
 import { Docs } from "./collections/Docs";
-import { Media } from "./collections/Media";
 import { Users } from "./collections/Users";
 import "dotenv/config";
 import { env } from "./lib/env";
@@ -43,7 +42,7 @@ export default buildConfig({
       afterNavLinks: ["@/components/home-nav-link#HomeNavLink"],
     },
   },
-  collections: [Users, Media, Categories, Docs],
+  collections: [Users, Categories, Docs],
   cors: {
     origins: [env.NEXT_PUBLIC_APP_URL as string],
   },
