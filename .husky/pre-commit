@@ -1,5 +1,4 @@
 #!/bin/sh
-# Production-grade pre-commit hook
 
 echo "🔍 Running pre-commit checks..."
 

@@ -43,8 +43,7 @@ export async function generateMetadata(props: { params: Promise<{ slug?: string[
     notFound();
   }
 
-  const slugPath = params.slug?.join("/") || "";
-  const image = `/docs-og/${slugPath}/image.png`;
+  const image = `/og/${[...(params.slug || []), "image.png"].join("/")}`;
 
   return {
     title: page.data.title,

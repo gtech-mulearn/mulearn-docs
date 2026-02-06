@@ -1,5 +1,4 @@
 #!/bin/sh
-# Production-grade pre-push hook
 
 echo "🚀 Running pre-push checks..."
 

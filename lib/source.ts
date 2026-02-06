@@ -11,7 +11,7 @@ import { buildDocPath } from "./utils";
 export const getSource = cache(async () => {
   const payloadSource = await createPayloadSource();
   return loader({
-    baseUrl: "/docs",
+    baseUrl: "/",
     source: payloadSource,
   });
 });
