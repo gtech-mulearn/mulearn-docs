@@ -51,47 +51,6 @@
   --border-radius-xl: calc(var(--radius) + 4px);
 }
 
-.dark {
-  // Color system from fumadocs - dark mode
-  --theme-background: oklch(0 0 0);
-  --theme-foreground: oklch(1 0 0);
-  --theme-card: oklch(0.2455 0.0217 257.2823);
-  --theme-card-foreground: oklch(1 0 0);
-  --theme-popover: oklch(0.2455 0.0217 257.2823);
-  --theme-popover-foreground: oklch(1 0 0);
-  --theme-primary: oklch(0.6801 0.1583 276.9349);
-  --theme-primary-foreground: oklch(0 0 0);
-  --theme-secondary: oklch(0.7845 0.1325 181.912);
-  --theme-secondary-foreground: oklch(0 0 0);
-  --theme-muted: oklch(0.3211 0 0);
-  --theme-muted-foreground: oklch(0.8452 0 0);
-  --theme-accent: oklch(0.879 0.1534 91.6054);
-  --theme-accent-foreground: oklch(0 0 0);
-  --theme-destructive: oklch(0.7106 0.1661 22.2162);
-  --theme-destructive-foreground: oklch(0 0 0);
-  --theme-border: oklch(0.4459 0 0);
-  --theme-input: oklch(1 0 0);
-  --theme-ring: oklch(0.6801 0.1583 276.9349);
-
-  // Payload-specific theme elevations for dark mode
-  --theme-elevation-0: oklch(0.1964 0.0125 270.7079);
-  --theme-elevation-50: oklch(0.2197 0.0399 71.1681);
-  --theme-elevation-100: oklch(0.2455 0.0217 257.2823);
-  --theme-elevation-150: oklch(0.3211 0 0);
-  --theme-elevation-200: oklch(0.3867 0 0);
-  --theme-elevation-300: oklch(0.4495 0 0);
-  --theme-elevation-400: oklch(0.5727 0 0);
-  --theme-elevation-500: oklch(0.8452 0 0);
-  --theme-elevation-600: oklch(0.9551 0 0);
-  --theme-elevation-700: oklch(1 0 0);
-  --theme-elevation-800: oklch(1 0 0);
-  --theme-elevation-900: oklch(1 0 0);
-
-  // Text colors for dark mode
-  --theme-text: oklch(1 0 0);
-  --theme-text-secondary: oklch(0.8452 0 0);
-}
-
 // Apply custom styling to Payload components
 body {
   font-family: var(--font-body);
