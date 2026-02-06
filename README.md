@@ -1,7 +1,5 @@
 # Mulearn Docs
 
-This example demonstrates how to integrate [Payload CMS](https://payloadcms.com) with [Fumadocs](https://fumadocs.dev/) for content management. It showcases a complete documentation site powered by Payload CMS with a custom fumadocs source adapter.
-
 ## What's Included
 
 - **Payload CMS Integration**: Full headless CMS backend for documentation
@@ -59,24 +57,6 @@ payload-cms/
    ```bash
    bun run dev
    ```
-
-### Troubleshooting
-
-**Error: "Invalid server environment variables"**
-
-- Check your `.env.local` file
-- Ensure all required variables are set
-- Check that values match validation rules (e.g., valid URLs)
-
-**Error: "serverEnv was imported on the client side!"**
-
-- You're importing `serverEnv` in a client component
-- Use `clientEnv` instead, or move the logic to an API route
-
-**Biome error: "Direct access to process.env is not allowed"**
-
-- Replace `process.env.VAR_NAME` with `serverEnv.VAR_NAME` or `clientEnv.NEXT_PUBLIC_VAR_NAME`
-- Import from `@/lib/env`
 
 ## Collections
 
