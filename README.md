@@ -1,7 +1,5 @@
 # Mulearn Docs
 
-This example demonstrates how to integrate [Payload CMS](https://payloadcms.com) with [Fumadocs](https://fumadocs.dev/) for content management. It showcases a complete documentation site powered by Payload CMS with a custom fumadocs source adapter.
-
 ## What's Included
 
 - **Payload CMS Integration**: Full headless CMS backend for documentation
@@ -20,11 +18,10 @@ payload-cms/
 ├── app/
 │   ├── (fumadocs)/           # Public documentation routes
 │   │   ├── (home)/           # Landing page with category cards
-│   │   ├── docs/             # Documentation pages
-│   │   │   ├── [[...slug]]/  # Dynamic doc pages
+│   │   ├── [[...slug]]/      # Documentation pages
 │   │   │   └── layout.tsx    # Docs layout with sidebar tabs
 │   │   ├── api/search/       # Search API endpoint
-│   │   ├── docs-og/          # OpenGraph image generation
+│   │   ├── og/               # OpenGraph image generation
 │   └── (payload)/            # Payload admin (protected)
 ├── collections/
 │   ├── Categories.ts         # Doc categories
@@ -60,24 +57,6 @@ payload-cms/
    bun run dev
    ```
 
-### Troubleshooting
-
-**Error: "Invalid server environment variables"**
-
-- Check your `.env.local` file
-- Ensure all required variables are set
-- Check that values match validation rules (e.g., valid URLs)
-
-**Error: "serverEnv was imported on the client side!"**
-
-- You're importing `serverEnv` in a client component
-- Use `clientEnv` instead, or move the logic to an API route
-
-**Biome error: "Direct access to process.env is not allowed"**
-
-- Replace `process.env.VAR_NAME` with `serverEnv.VAR_NAME` or `clientEnv.NEXT_PUBLIC_VAR_NAME`
-- Import from `@/lib/env`
-
 ## Collections
 
 ### Categories
@@ -87,7 +66,6 @@ Organize documentation into sections:
 - `title`: Category name
 - `slug`: URL identifier (e.g., "getting-started")
 - `description`: Brief description
-- `icon`: Optional icon image
 - `order`: Display order (ascending)
 
 ### Docs
@@ -101,7 +79,7 @@ Documentation pages:
 - `category`: Belongs to which category
 - `parent`: Optional parent doc (for nesting)
 - `order`: Sort order within category (ascending)
-- `_status`: Draft or Published\
+- `_status`: Draft or Published
 
 ## How It Works
 
@@ -117,7 +95,7 @@ import { getPayload } from "payload";
 export const getSource = cache(async () => {
   const payloadSource = await createPayloadSource();
   return loader({
-    baseUrl: "/docs",
+    baseUrl: "/",
     source: payloadSource,
   });
 });
@@ -127,7 +105,7 @@ export const getSource = cache(async () => {
 
 1. Fetches categories and docs from Payload
 2. Transforms Payload data into fumadocs `VirtualFile` format
-3. Builds hierarchical paths (e.g., `/docs/category/parent/child`)
+3. Builds hierarchical paths (e.g., `/category/parent/child`)
 4. Creates meta files for sidebar tabs and ordering
 5. Provides standard fumadocs APIs
 
@@ -309,12 +287,6 @@ This ensures relationships are populated, not just IDs.
    console.log(page.data.author);
    ```
 
-### Custom Styling
-
-- Tailwind config: `tailwind.config.ts`
-- Global styles: `app/global.css`
-- Fumadocs theme: `app/(fumadocs)/layout.config.tsx`
-
 ## Troubleshooting
 
 ### "pageTree must be accessed via getSource()"
@@ -342,16 +314,3 @@ The source adapter preserves Payload's `order` field. Verify:
 1. Docs have `order` values set
 2. Order is ascending (1, 2, 3...)
 3. No duplicate orders at the same level
-
-## Scripts
-
-```bash
-bun run dev          # Development server
-bun run build        # Production build
-bun run start        # Start production server
-bun run payload      # Payload CLI commands
-```
-
-## License
-
-MIT

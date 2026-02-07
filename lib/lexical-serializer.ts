@@ -337,7 +337,7 @@ async function resolveDocHref({
   }
 
   const path = normalizedSegments.join("/");
-  return path ? `/docs/${categorySlug}/${path}` : `/docs/${categorySlug}`;
+  return path ? `/${categorySlug}/${path}` : `/${categorySlug}`;
 }
 
 async function resolveCategorySlug({

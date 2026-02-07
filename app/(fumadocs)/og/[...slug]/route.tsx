@@ -93,8 +93,8 @@ export async function generateStaticParams() {
   const pages = await source.getPages();
 
   const params = pages.map((page) => {
-    // Convert URL path to slug array and append "image.png"
-    const slugParts = page.url.replace("/docs/", "").split("/");
+    // Use slugs directly from the page object
+    const slugParts = page.slugs;
     return { slug: [...slugParts, "image.png"] };
   });
 
