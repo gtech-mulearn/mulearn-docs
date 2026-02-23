@@ -23,7 +23,9 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       tableOfContent={{ style: "clerk", single: true }}
       toc={toc}
     >
-      <DocsTitle className="font-bold font-serif text-4xl md:text-5xl">{page.data.title}</DocsTitle>
+      <DocsTitle className="font-bold font-display text-4xl md:text-5xl">
+        {page.data.title}
+      </DocsTitle>
       <DocsDescription>{page.data.description}</DocsDescription>
       <div className="flex flex-row items-center border-b"></div>
       <DocsBody dangerouslySetInnerHTML={{ __html: serializedContent }} />

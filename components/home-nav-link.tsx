@@ -8,16 +8,7 @@ export function HomeNavLink() {
     <div className="nav-link-wrapper">
       <Link
         href="/"
-        className="nav__link"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "0.5rem",
-          padding: "0.75rem 1rem",
-          textDecoration: "none",
-          color: "var(--theme-text)",
-          transition: "all 0.2s ease",
-        }}
+        className="nav__link flex items-center gap-2 px-4 py-3 no-underline text-foreground transition-all duration-200 ease-in-out"
       >
         <Home size={16} />
         <span>Home</span>

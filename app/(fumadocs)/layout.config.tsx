@@ -8,7 +8,7 @@ import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
  */
 export const baseOptions: BaseLayoutProps = {
   themeSwitch: {
-    enabled: false,
+    enabled: true,
     mode: "light-dark-system",
   },
   nav: {
