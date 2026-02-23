@@ -1,4 +1,5 @@
 import type { BaseLayoutProps } from "fumadocs-ui/layouts/shared";
+import Image from "next/image";
 
 /**
  * Shared layout configurations
@@ -14,7 +15,7 @@ export const baseOptions: BaseLayoutProps = {
   nav: {
     title: (
       <div className="flex items-center gap-2">
-        <span className="font-bold tracking-wide">Mulearn</span>
+        <Image src="/assets/logo.webp" width={100} height={100} alt="µLearn Logo" />
       </div>
     ),
   },
