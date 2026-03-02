@@ -15,7 +15,20 @@ export const baseOptions: BaseLayoutProps = {
   nav: {
     title: (
       <div className="flex items-center gap-2">
-        <Image src="/assets/logo.webp" width={100} height={100} alt="µLearn Logo" />
+        <Image
+          src="/logo.webp"
+          width={100}
+          height={100}
+          alt="µLearn Logo"
+          className="dark:hidden"
+        />
+        <Image
+          src="/mulearn-logo-dark.webp"
+          width={100}
+          height={100}
+          alt="µLearn Logo"
+          className="hidden dark:block"
+        />
       </div>
     ),
   },
