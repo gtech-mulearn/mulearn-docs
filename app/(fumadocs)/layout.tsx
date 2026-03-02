@@ -2,7 +2,6 @@ import "./global.css";
 import { RootProvider } from "fumadocs-ui/provider/next";
 import type { Metadata } from "next";
 import { Bricolage_Grotesque, Plus_Jakarta_Sans } from "next/font/google";
-import localFont from "next/font/local";
 import type { ReactNode } from "react";
 import { env } from "@/lib/env";
 
@@ -45,7 +44,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${plusJakarta.variable} ${bricolage.variable} flex min-h-screen flex-col antialiased bg-mulearn-whitish text-mulearn-blackish font-body`}
+        className={`${plusJakarta.variable} ${bricolage.variable} flex min-h-screen flex-col antialiased bg-background text-foreground font-sans`}
       >
         <RootProvider>{children}</RootProvider>
       </body>

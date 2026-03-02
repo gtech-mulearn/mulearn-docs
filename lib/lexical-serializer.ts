@@ -209,12 +209,12 @@ function createConverterOverrides(payload: Payload): HTMLConvertersFunctionAsync
 }
 
 const headingClasses: Record<string, string> = {
-  h1: "md:text-5xl text-4xl font-serif font-bold",
-  h2: "md:text-4xl text-3xl font-serif font-bold",
-  h3: "md:text-3xl text-2xl font-serif font-light text-primary dark:text-accent",
-  h4: "md:text-2xl text-xl font-serif font-bold",
-  h5: "md:text-xl text-lg font-serif font-light",
-  h6: "md:text-lg text-base font-serif font-bold",
+  h1: "md:text-5xl text-4xl font-display font-bold",
+  h2: "md:text-4xl text-3xl font-display font-bold",
+  h3: "md:text-3xl text-2xl font-display font-light text-primary",
+  h4: "md:text-2xl text-xl font-display font-bold",
+  h5: "md:text-xl text-lg font-display font-light",
+  h6: "md:text-lg text-base font-display font-bold",
 };
 
 async function resolveRelationshipDoc({
