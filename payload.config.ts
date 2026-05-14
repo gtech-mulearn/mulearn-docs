@@ -41,6 +41,11 @@ export default buildConfig({
     components: {
       afterNavLinks: ["@/components/home-nav-link#HomeNavLink"],
     },
+    livePreview: {
+      collections: ["docs"],
+      url: ({ collectionConfig, data }) =>
+        `${env.NEXT_PUBLIC_APP_URL}/${collectionConfig?.slug === "docs" ? (data.slug === "home" ? "" : data.slug) : ""}`,
+    },
   },
   collections: [Users, Categories, Docs],
   cors: {
