@@ -1,56 +1,48 @@
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
-import { RefreshRouteOnSave } from "@/components/RefreshRouteOnSave";
+import { LivePreview } from "@/components/LivePreview";
 import { extractTableOfContents, serializeLexical } from "@/lib/lexical-serializer";
 import { source } from "@/lib/source";
 import config from "@/payload.config";
 
-export default async function Page(props: {
+type PageProps = {
   params: Promise<{ slug?: string[] }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const params = await props.params;
-  const searchParams = await props.searchParams;
+};
+
+async function getDoc(slugs: string[]) {
   const payload = await getPayload({ config });
-  const previewId = searchParams.preview_id;
+  const isHome = slugs.length === 0;
+  const lastSlug = isHome ? "home" : slugs[slugs.length - 1];
+  const categorySlug = slugs.length > 1 ? slugs[slugs.length - 2] : null;
 
+  const { docs } = await payload.find({
+    collection: "docs",
+    draft: true,
+    where: {
+      and: [
+        { slug: { equals: lastSlug } },
+        ...(categorySlug ? [{ "category.slug": { equals: categorySlug } }] : []),
+      ],
+    },
+    depth: 2,
+  });
+
+  return docs[0] || null;
+}
+
+export default async function Page(props: PageProps) {
+  const payload = await getPayload({ config });
+  const params = await props.params;
   const slugs = params.slug || [];
-  const lastSlug = slugs[slugs.length - 1];
-  const categorySlug = slugs[0];
+  const user = await payload.auth({ headers: await headers() });
 
-  let docData: any = null;
+  const docData = await getDoc(slugs);
+  const page = await source.getPage(slugs);
 
-  if (previewId) {
-    docData = await payload.findByID({
-      collection: "docs",
-      id: previewId as string,
-      draft: true,
-      depth: 2,
-    });
-  } else {
-    // Fallback to slug-based lookup
-    const { docs } = await payload.find({
-      collection: "docs",
-      draft: true,
-      where: {
-        slug: { equals: lastSlug },
-      },
-      depth: 2,
-    });
-
-    // Find the doc that matches the category slug
-    docData = docs.find((d: any) => {
-      const catSlug = d.category && typeof d.category === "object" ? d.category.slug : null;
-      return catSlug === categorySlug;
-    });
-  }
-
-  const page = await source.getPage(params.slug);
-
-  if (!page && !docData) {
-    notFound();
-  }
+  if (!page && !docData) notFound();
 
   const title = docData?.title || page?.data.title;
   const description = docData?.description || page?.data.description;
@@ -65,10 +57,10 @@ export default async function Page(props: {
       tableOfContent={{ style: "clerk", single: true }}
       toc={toc}
     >
-      <RefreshRouteOnSave />
+      {user && <LivePreview />}
       <DocsTitle className="font-bold font-display text-4xl md:text-5xl">{title}</DocsTitle>
       <DocsDescription>{description}</DocsDescription>
-      <div className="flex flex-row items-center border-b"></div>
+      <div className="flex flex-row items-center border-b" />
       <DocsBody dangerouslySetInnerHTML={{ __html: serializedContent }} />
     </DocsPage>
   );
@@ -78,51 +70,29 @@ export async function generateStaticParams() {
   return await source.generateParams();
 }
 
-export async function generateMetadata(props: {
-  params: Promise<{ slug?: string[] }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
+export async function generateMetadata(props: PageProps) {
   const params = await props.params;
-  const searchParams = await props.searchParams;
-  const previewId = searchParams.preview_id;
+  const slugs = params.slug || [];
 
-  if (previewId) {
-    const payload = await getPayload({ config });
-    const doc = await payload.findByID({
-      collection: "docs",
-      id: previewId as string,
-      draft: true,
-      depth: 1,
-    });
+  const doc = await getDoc(slugs);
 
-    if (doc) {
-      return {
-        title: doc.title,
-        description: doc.description || undefined,
-      };
-    }
-  }
-
-  const page = await source.getPage(params.slug);
-
-  if (!page) {
+  if (doc) {
     return {
-      title: "Not Found",
+      title: doc.title,
+      description: doc.description || undefined,
     };
   }
 
-  const image = `/og/${[...(params.slug || []), "image.png"].join("/")}`;
+  const page = await source.getPage(slugs);
+  if (!page) return { title: "Not Found" };
+
+  const image = `/og/${[...slugs, "image.png"].join("/")}`;
 
   return {
     title: page.data.title,
     description: page.data.description,
-    openGraph: {
-      images: image,
-    },
-    twitter: {
-      card: "summary_large_image",
-      images: image,
-    },
+    openGraph: { images: image },
+    twitter: { card: "summary_large_image", images: image },
   };
 }
 
