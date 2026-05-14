@@ -10,6 +10,7 @@ import {
   type HTMLConvertersFunctionAsync,
 } from "@payloadcms/richtext-lexical/html-async";
 import type { SerializedEditorState } from "@payloadcms/richtext-lexical/lexical";
+import { marked } from "marked";
 import type { Payload } from "payload";
 import type { Category, Doc } from "@/payload-types";
 
@@ -135,7 +136,51 @@ export async function serializeLexical(
     }),
   });
 
-  return html ?? "";
+  if (!html) return "";
+
+  // Pre-process HTML to allow marked to parse markdown tables that might be wrapped in paragraphs
+  const rawLines = html
+    .replace(/[\u200B-\u200D\uFEFF]/g, "") // Remove hidden characters
+    .replace(/<p(?:\s+[^>]*?)?>(.*?)<\/p>/g, "$1\n")
+    .replace(/<br\s*\/?>/g, "\n")
+    .split("\n")
+    .map((l) => l.trim());
+
+  const processedLines: string[] = [];
+  let inTable = false;
+
+  for (let i = 0; i < rawLines.length; i++) {
+    const line = rawLines[i];
+    // A line is likely a table row if it contains a pipe character
+    const isTableRow = line.includes("|") && (line.includes("-") || line.split("|").length > 1);
+
+    if (isTableRow) {
+      if (!inTable) {
+        // Ensure there's a blank line before the table
+        if (processedLines.length > 0 && processedLines[processedLines.length - 1] !== "") {
+          processedLines.push("");
+        }
+        inTable = true;
+      }
+      processedLines.push(line);
+    } else {
+      if (inTable) {
+        // If we were in a table and hit an empty line, skip it to keep table contiguous
+        if (line === "" || line === "&nbsp;") {
+          continue;
+        }
+        // If it's a non-empty line that's not a table row, close the table
+        processedLines.push("");
+        inTable = false;
+      }
+      processedLines.push(line);
+    }
+  }
+
+  const processedHtml = processedLines.join("\n");
+
+  // Parse markdown (like tables) that might be in the Lexical content
+  return (await marked.parse(processedHtml.trim(), { gfm: true })) as string;
 }
 
 function createConverterOverrides(payload: Payload): HTMLConvertersFunctionAsync<DefaultNodeTypes> {
@@ -204,6 +249,22 @@ function createConverterOverrides(payload: Payload): HTMLConvertersFunctionAsync
       return href
         ? `<a href="${href}" class="block no-underline hover:no-underline focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2">${body}</a>`
         : body;
+    },
+    table: async ({ node, nodesToHTML }) => {
+      const children = await nodesToHTML({ nodes: node.children });
+      return `<div class="my-6 overflow-x-auto"><table class="w-full border-collapse border border-border text-sm">${children.join("")}</table></div>`;
+    },
+    tablerow: async ({ node, nodesToHTML }) => {
+      const children = await nodesToHTML({ nodes: node.children });
+      return `<tr class="border-b border-border">${children.join("")}</tr>`;
+    },
+    tablecell: async ({ node, nodesToHTML }) => {
+      const children = await nodesToHTML({ nodes: node.children });
+      const tag = (node as any).header ? "th" : "td";
+      const className = (node as any).header
+        ? "bg-muted/50 px-4 py-2 text-left font-bold border border-border"
+        : "px-4 py-2 border border-border";
+      return `<${tag} class="${className}">${children.join("")}</${tag}>`;
     },
   });
 }
