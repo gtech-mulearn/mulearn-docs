@@ -9,6 +9,16 @@ export const Docs: CollectionConfig = {
   admin: {
     useAsTitle: "title",
     defaultColumns: ["title", "category", "slug", "order", "parent"],
+    livePreview: {
+      url: ({ data }) => {
+        const isHomePage = data.slug === "home";
+        const categorySlug =
+          data.category && typeof data.category === "object" ? data.category.slug : "docs";
+        return `${process.env.NEXT_PUBLIC_APP_URL}${
+          !isHomePage ? `/${categorySlug}/${data.slug}` : ""
+        }?preview_id=${data.id}`;
+      },
+    },
   },
   access: {
     // Public read access for documentation
