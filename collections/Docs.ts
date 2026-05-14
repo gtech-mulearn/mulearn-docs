@@ -9,6 +9,12 @@ export const Docs: CollectionConfig = {
   admin: {
     useAsTitle: "title",
     defaultColumns: ["title", "category", "slug", "order", "parent"],
+    preview: (doc) => {
+      if (doc?.id) {
+        return `${process.env.NEXT_PUBLIC_APP_URL}/api/preview?id=${doc.id}&collection=docs`;
+      }
+      return null;
+    },
   },
   access: {
     // Public read access for documentation
