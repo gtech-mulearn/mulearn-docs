@@ -1,23 +1,35 @@
 import { DocsBody, DocsDescription, DocsPage, DocsTitle } from "fumadocs-ui/page";
-import { draftMode } from "next/headers";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
+import { RefreshRouteOnSave } from "@/components/RefreshRouteOnSave";
 import { extractTableOfContents, serializeLexical } from "@/lib/lexical-serializer";
 import { source } from "@/lib/source";
 import config from "@/payload.config";
 
-export default async function Page(props: { params: Promise<{ slug?: string[] }> }) {
+export default async function Page(props: {
+  params: Promise<{ slug?: string[] }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const params = await props.params;
-  const { isEnabled } = await draftMode();
+  const searchParams = await props.searchParams;
   const payload = await getPayload({ config });
+  const previewId = searchParams.preview_id;
+
+  const slugs = params.slug || [];
+  const lastSlug = slugs[slugs.length - 1];
+  const categorySlug = slugs[0];
 
   let docData: any = null;
 
-  if (isEnabled) {
-    const slugs = params.slug || [];
-    const lastSlug = slugs[slugs.length - 1];
-    const categorySlug = slugs[0];
-
+  if (previewId) {
+    docData = await payload.findByID({
+      collection: "docs",
+      id: previewId as string,
+      draft: true,
+      depth: 2,
+    });
+  } else {
+    // Fallback to slug-based lookup
     const { docs } = await payload.find({
       collection: "docs",
       draft: true,
@@ -53,18 +65,7 @@ export default async function Page(props: { params: Promise<{ slug?: string[] }>
       tableOfContent={{ style: "clerk", single: true }}
       toc={toc}
     >
-      {isEnabled && (
-        <div className="mb-8 rounded-lg border border-yellow-200 bg-yellow-50 p-4 text-sm text-yellow-800 dark:border-yellow-900/50 dark:bg-yellow-900/20 dark:text-yellow-400">
-          <p className="flex items-center justify-between">
-            <span>
-              <strong>Preview Mode:</strong> You are viewing a draft version of this document.
-            </span>
-            <a href="/api/exit-preview" className="font-semibold underline hover:no-underline">
-              Exit Preview
-            </a>
-          </p>
-        </div>
-      )}
+      <RefreshRouteOnSave />
       <DocsTitle className="font-bold font-display text-4xl md:text-5xl">{title}</DocsTitle>
       <DocsDescription>{description}</DocsDescription>
       <div className="flex flex-row items-center border-b"></div>
@@ -77,12 +78,37 @@ export async function generateStaticParams() {
   return await source.generateParams();
 }
 
-export async function generateMetadata(props: { params: Promise<{ slug?: string[] }> }) {
+export async function generateMetadata(props: {
+  params: Promise<{ slug?: string[] }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
   const params = await props.params;
+  const searchParams = await props.searchParams;
+  const previewId = searchParams.preview_id;
+
+  if (previewId) {
+    const payload = await getPayload({ config });
+    const doc = await payload.findByID({
+      collection: "docs",
+      id: previewId as string,
+      draft: true,
+      depth: 1,
+    });
+
+    if (doc) {
+      return {
+        title: doc.title,
+        description: doc.description || undefined,
+      };
+    }
+  }
+
   const page = await source.getPage(params.slug);
 
   if (!page) {
-    notFound();
+    return {
+      title: "Not Found",
+    };
   }
 
   const image = `/og/${[...(params.slug || []), "image.png"].join("/")}`;
