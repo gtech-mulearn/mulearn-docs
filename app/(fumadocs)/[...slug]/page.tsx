@@ -33,6 +33,19 @@ async function getDoc(slugs: string[]) {
   return docs[0] || null;
 }
 
+function parseUpdatedAt(raw: string): string | undefined {
+  const d = new Date(raw.replace(" ", "T").replace(/([+-]\d{2})$/, "$1:00"));
+  if (Number.isNaN(d.getTime())) return undefined;
+  return d.toLocaleString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  });
+}
+
 export default async function Page(props: PageProps) {
   const payload = await getPayload({ config });
   const params = await props.params;
@@ -47,6 +60,7 @@ export default async function Page(props: PageProps) {
   const title = docData?.title || page?.data.title;
   const description = docData?.description || page?.data.description;
   const content = docData?.content || page?.data.content;
+  const updatedAt = docData?.updatedAt ? parseUpdatedAt(docData.updatedAt as string) : undefined;
 
   const toc = extractTableOfContents(content);
   const serializedContent = await serializeLexical(content, payload);
@@ -62,6 +76,9 @@ export default async function Page(props: PageProps) {
       <DocsDescription>{description}</DocsDescription>
       <div className="flex flex-row items-center border-b" />
       <DocsBody dangerouslySetInnerHTML={{ __html: serializedContent }} />
+      {updatedAt && (
+        <p className="text-sm text-fd-muted-foreground -mt-2 mb-4">Last updated on {updatedAt}</p>
+      )}
     </DocsPage>
   );
 }
