@@ -32,6 +32,7 @@ import {
 } from "@payloadcms/richtext-lexical/rsc";
 import { HomeNavLink as HomeNavLink_f04b3d5d52b82f2c98c152d722a60f81 } from "@/components/home-nav-link";
 
+/** @type import('payload').ImportMap */
 export const importMap = {
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell":
     RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
