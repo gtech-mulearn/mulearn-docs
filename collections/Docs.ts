@@ -8,7 +8,7 @@ export const Docs: CollectionConfig = {
   slug: "docs",
   admin: {
     useAsTitle: "title",
-    defaultColumns: ["title", "category", "slug", "order", "parent"],
+    defaultColumns: ["title", "category", "slug", "order", "parent", "lastEditedBy"],
   },
   access: {
     // Public read access for documentation
@@ -35,6 +35,16 @@ export const Docs: CollectionConfig = {
       schedulePublish: true,
       validate: false,
     },
+  },
+  hooks: {
+    beforeChange: [
+      ({ req, data }) => {
+        if (req.user) {
+          data.lastEditedBy = req.user.id;
+        }
+        return data;
+      },
+    ],
   },
   fields: [
     {
@@ -93,6 +103,16 @@ export const Docs: CollectionConfig = {
       admin: {
         description: "Order within the category/parent",
         position: "sidebar",
+      },
+    },
+    {
+      name: "lastEditedBy",
+      type: "relationship",
+      relationTo: "users" as any,
+      admin: {
+        position: "sidebar",
+        readOnly: true,
+        description: "User who last edited this document",
       },
     },
     {
