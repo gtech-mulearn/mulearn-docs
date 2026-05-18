@@ -31,9 +31,9 @@ export const Docs: CollectionConfig = {
     update: ({ req: { user } }) => {
       return Boolean(user?.role === "owner" || user?.role === "admin");
     },
-    // Only owner can delete docs
+    // Owner and admins can delete docs
     delete: ({ req: { user } }) => {
-      return user?.role === "owner";
+      return Boolean(user?.role === "owner" || user?.role === "admin");
     },
   },
   versions: {
