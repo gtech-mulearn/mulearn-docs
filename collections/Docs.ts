@@ -39,7 +39,7 @@ export const Docs: CollectionConfig = {
   versions: {
     drafts: {
       autosave: {
-        interval: 100,
+        interval: 10000,
         showSaveDraftButton: true,
       },
       schedulePublish: true,
