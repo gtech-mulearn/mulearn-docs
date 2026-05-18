@@ -3,7 +3,7 @@ import { loader, type MetaData, type Source, type VirtualFile } from "fumadocs-c
 import { getPayload } from "payload";
 import { cache } from "react";
 import config from "@/payload.config";
-import { extractTableOfContents } from "./lexical-serializer";
+import { extractTableOfContents } from "./doc-paths";
 import { buildDocPath } from "./utils";
 
 // Create a cached function to get the source

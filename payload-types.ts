@@ -599,6 +599,164 @@ export interface TaskSchedulePublish {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CalloutBlock".
+ */
+export interface CalloutBlock {
+  type: "info" | "warn" | "danger" | "success";
+  text: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ("ltr" | "rtl") | null;
+      format: "left" | "start" | "center" | "right" | "end" | "justify" | "";
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: "callout";
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardBlock".
+ */
+export interface CardBlock {
+  title: string;
+  /**
+   * 1–2 sentences.
+   */
+  description?: string | null;
+  /**
+   * Internal docs page or external URL.
+   */
+  link: {
+    type: "internal" | "external";
+    doc?: (number | null) | Doc;
+    url?: string | null;
+    /**
+     * Open in new tab
+     */
+    newTab?: boolean | null;
+  };
+  /**
+   * Emoji or lucide-react icon name (optional).
+   */
+  icon?: string | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: "card";
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CardGridBlock".
+ */
+export interface CardGridBlock {
+  columns: "2" | "3";
+  cards?: CardBlock[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: "cardGrid";
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "StepsBlock".
+ */
+export interface StepsBlock {
+  steps?:
+    | {
+        title: string;
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ("ltr" | "rtl") | null;
+            format: "left" | "start" | "center" | "right" | "end" | "justify" | "";
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: "steps";
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "TabsBlock".
+ */
+export interface TabsBlock {
+  items?:
+    | {
+        label: string;
+        content: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ("ltr" | "rtl") | null;
+            format: "left" | "start" | "center" | "right" | "end" | "justify" | "";
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: "tabs";
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PersonaRouteBlock".
+ */
+export interface PersonaRouteBlock {
+  /**
+   * Optional. Defaults to "Already know what you're looking for?"
+   */
+  heading?: string | null;
+  routes?:
+    | {
+        persona: string;
+        destination: string;
+        /**
+         * Internal docs page or external URL.
+         */
+        link: {
+          type: "internal" | "external";
+          doc?: (number | null) | Doc;
+          url?: string | null;
+          /**
+           * Open in new tab
+           */
+          newTab?: boolean | null;
+        };
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: "personaRoute";
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "auth".
  */
 export interface Auth {
