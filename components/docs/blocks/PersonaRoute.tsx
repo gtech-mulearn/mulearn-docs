@@ -12,7 +12,7 @@ export function PersonaRoute({ heading, routes }: { heading?: string; routes: Ro
         {routes.map((r, i) => {
           const external = r.newTab || /^https?:\/\//.test(r.href);
           return (
-            <li key={i}>
+            <li key={`${i}-${r.persona}`}>
               <a
                 href={r.href}
                 target={external ? "_blank" : undefined}
